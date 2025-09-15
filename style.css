@@ -1,0 +1,299 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cookie&family=Lavishly+Yours&family=Sacramento&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    color: #e6e6e6;
+}
+
+section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #22142B, rgb(17, 1, 28), #1e1621);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Stars */
+section .star {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    animation: twinkle 7s ease-in-out infinite,
+        drift 40s linear infinite;
+    opacity: 0.5;
+    filter: drop-shadow(0 0 10px rgba(200, 200, 255, 0.4));
+}
+
+section .star.star1 {
+    background: url(images/stars/star1.png);
+    animation-delay: 0s;
+}
+
+section .star.star2 {
+    background: url(images/stars/star2.png);
+    animation-delay: -2s;
+}
+
+section .star.star3 {
+    background: url(images/stars/star3.png);
+    animation-delay: -4s;
+}
+
+section .star.star4 {
+    background: url(images/stars/star4.png);
+    animation-delay: -6s;
+}
+
+section .star.star5 {
+    background: url(images/stars/star5.png);
+    animation-delay: -1s;
+}
+
+section .star.star6 {
+    background: url(images/stars/star6.png);
+    animation-delay: -3s;
+}
+
+section .star.star7 {
+    background: url(images/stars/star7.png);
+    animation-delay: -5s;
+}
+
+section .star.star8 {
+    background: url(images/stars/star8.png);
+    animation-delay: -7s;
+}
+
+div.container.main {
+    position: fixed;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle at bottom,#908196,#806884,#664D6B,#5F4467,#4F335B,#22142B);
+    border-radius: 16px;
+    box-shadow: 0 0 30px rgba(140, 180, 255, 0.25),
+        inset 0 0 10px rgba(255, 255, 255, 0.05);
+    min-height: 70%;
+    width: 75%;
+    overflow: hidden;
+    border: 1px solid rgba(200, 220, 255, 0.1);
+}
+
+.container.main .cover-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.container.main img.cover1, 
+.container.main img.cover2 {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    object-fit: cover;
+    transition: transform 1.5s ease-in-out;
+}
+
+.container.main img.cover1 {
+    left: 0;
+    width: 100%; /* Changed from 50% to cover entire background */
+    transform-origin: left center;
+    animation: revealLeft 3s ease-in-out forwards, sparkle 5s ease-in-out;
+    animation-delay: 1s, 0.5s; /* Added delay to allow viewing before reveal */
+    z-index: 3; /* Ensure it's on top */
+}
+
+.container.main img.cover2 {
+    right: 0;
+    width: 50%;
+    transform-origin: right center;
+    animation: revealRight 3s ease-in-out forwards, sparkle 2s ease-in-out;
+    animation-delay: 1s, 0.5s; /* Matching delay with cover1 */
+}
+
+.container.main .hero .heading1 {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 5rem;
+    color: #edce8c;
+    text-shadow: 0 0 10px rgba(166, 151, 78, 0.729);
+    animation: sparkle 5s ease-in-out infinite;
+}
+
+.container.main .hero .heading2 {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.5rem;
+    color: #bdaa7f;
+    text-shadow: 0 0 10px #a6974eba;
+    text-align: center;
+}
+
+.container.main button a{
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 11px 22px;
+    font-size: 1rem;
+    font-family: 'Cinzel Decorative', serif;
+    color: #fff;
+    background: #4F335B;
+    border: 2px solid #edce8c;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 2;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.container.main button:hover a{
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 11px 22px;
+    font-size: 1.2rem;
+    font-family: 'Cinzel Decorative', serif;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid #edce8c;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 2;
+    transition: background 0.3s, transform 0.3s;
+}
+
+a {
+    text-decoration: none;
+}
+
+.container.main img.wheel1{
+    position: absolute;
+    top: -60%;
+    right: -45%;
+    opacity: 0.5;
+    filter: brightness(70%);
+    animation: rotate 40s linear infinite;
+}
+
+.container.main img.moon1{
+    position: absolute;
+    top: 60%;
+    left: 15%;
+    width: 40%;
+    opacity: 0.5;
+    transform: rotate(-40deg);
+    width: 20rem;
+    /* animation: rotate 60s linear infinite; */
+}
+
+.container.main img.star1{
+    position: absolute;
+    top: 0;
+    left: 0%;
+    width: 30%;
+    opacity: 0.6;
+    width: 25rem;
+}
+
+/* Animations */
+@keyframes twinkle {
+
+    0%,
+    100% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes drift {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.6);
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% { filter: brightness(1); }
+    25% { filter: brightness(1.5) drop-shadow(0 0 10px rgba(203, 188, 103, 0.8)); }
+    50% { filter: brightness(1.2) drop-shadow(0 0 15px rgba(203, 188, 103, 0.8)); }
+    75% { filter: brightness(1.7) drop-shadow(0 0 20px rgba(203, 188, 103, 0.8)); }
+    90% { filter: brightness(1.8) drop-shadow(0 0 20px rgba(203, 188, 103, 0.8)); }
+}
+
+@keyframes revealLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 22ch; }
+}
+
+@keyframes blink {
+    50% { border-color: transparent; }
+}
+
+/* 
+#D4CBD0, #908196, #806884, #664D6B, #4F335B
+*/
+
+/* 
+#DFD6DC, 
+#BCA9BB, 
+#A794A7, 
+#908196, 
+#806884,
+#664D6B,
+#5F4467, 
+#4F335B, 
+#22142B
+*/
+
+/* 
+#4F3859
+#84708C
+#A197A6
+#D7D9D9
+#F2DEA0 
+*/
