@@ -124,7 +124,7 @@ div.container.main {
     animation-delay: 1s, 0.5s; /* Matching delay with cover1 */
 }
 
-.container.main .heading1 {
+.container.main .hero .heading1 {
     position: absolute;
     top: 15%;
     left: 50%;
@@ -136,7 +136,7 @@ div.container.main {
     animation: sparkle 5s ease-in-out infinite;
 }
 
-.container.main .heading2 {
+.container.main .hero .heading2 {
     position: absolute;
     top: 35%;
     left: 50%;
@@ -144,11 +144,11 @@ div.container.main {
     font-family: 'Cinzel Decorative', serif;
     font-size: 1.5rem;
     color: #bdaa7f;
-    text-shadow: 0 0 10px rgba(166, 151, 78, 0.729);
+    text-shadow: 0 0 10px #a6974eba;
     text-align: center;
 }
 
-.container.main button {
+.container.main button a{
     position: absolute;
     top: 60%;
     left: 50%;
@@ -165,7 +165,7 @@ div.container.main {
     transition: background 0.3s, transform 0.3s;
 }
 
-.container.main button:hover {
+.container.main button:hover a{
     position: absolute;
     top: 60%;
     left: 50%;
@@ -182,7 +182,11 @@ div.container.main {
     transition: background 0.3s, transform 0.3s;
 }
 
-.container.main .hero img.wheel1{
+a {
+    text-decoration: none;
+}
+
+.container.main img.wheel1{
     position: absolute;
     top: -60%;
     right: -45%;
@@ -191,24 +195,24 @@ div.container.main {
     animation: rotate 40s linear infinite;
 }
 
-.container.main .hero img.moon1{
+.container.main img.moon1{
     position: absolute;
     top: 60%;
     left: 15%;
     width: 40%;
     opacity: 0.5;
     transform: rotate(-40deg);
-    width: 20vw;
+    width: 20rem;
     /* animation: rotate 60s linear infinite; */
 }
 
-.container.main .hero img.star1{
+.container.main img.star1{
     position: absolute;
     top: 0;
     left: 0%;
     width: 30%;
     opacity: 0.6;
-    width: 25vw;
+    width: 25rem;
 }
 
 /* Animations */
