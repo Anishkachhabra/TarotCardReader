@@ -126,3 +126,15 @@
 .form .close {
   display: none;
 }
+
+.form .acc-text {
+  font-size: 0.9rem;
+  text-align: center;
+  color: #bdaa7f;
+}
+
+.form .acc-text a {
+  color: #4F335B;
+  text-decoration: none;
+  font-weight: bold;
+}
