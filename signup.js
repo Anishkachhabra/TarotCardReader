@@ -52,6 +52,11 @@ window.addEventListener('DOMContentLoaded', function() {
 			alert.textContent = 'Signup successful!';
             alert.style.color = 'green';
 			signupForm.reset();
+
+			// Redirect to landing page after successful signup
+			setTimeout(function() {
+				window.location.href = 'landing.html';
+			}, 1500); // Wait 1.5 seconds so user can see success message
 		});
 	}
 });

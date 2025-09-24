@@ -1,8 +1,8 @@
 // Login form validation and user authentication
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', function () {
     var loginForm = document.querySelector('form');
     if (loginForm) {
-        loginForm.addEventListener('submit', function(e) {
+        loginForm.addEventListener('submit', function (e) {
             e.preventDefault();
             var username = document.getElementById('username');
             var password = document.getElementById('password');
@@ -31,11 +31,11 @@ window.addEventListener('DOMContentLoaded', function() {
             if (userData) {
                 userData = JSON.parse(userData);
                 // Find user in the array of users
-                var foundUser = userData.find(function(user) {
-                    return username.value === user.username && 
-                           password.value === user.password;
+                var foundUser = userData.find(function (user) {
+                    return username.value === user.username &&
+                        password.value === user.password;
                 });
-                
+
                 if (foundUser) {
                     localStorage.setItem('currentUser', username.value); // Set current logged-in user
                     if (alertBox) {
@@ -54,6 +54,7 @@ window.addEventListener('DOMContentLoaded', function() {
                     } else {
                         alert('Invalid username or password.');
                     }
+                    return;
                 }
             } else {
                 if (alertBox) {
@@ -63,11 +64,16 @@ window.addEventListener('DOMContentLoaded', function() {
                     alert('No user found. Please sign up first.');
                 }
             }
+
+
+            setTimeout(function () {
+                window.location.href = 'landing.html';
+            }, 1500);
         });
     }
 });
 
 // Log out user automatically when tab/window is closed or refreshed
-window.addEventListener('beforeunload', function() {
+window.addEventListener('beforeunload', function () {
     localStorage.removeItem('currentUser');
 });
