@@ -151,7 +151,7 @@ body {
 
 .card {
   flex: 0 0 auto;
-  width: 250px;
+  width: 200px;
   height: 350px;
   perspective: 1000px;
   cursor: pointer;

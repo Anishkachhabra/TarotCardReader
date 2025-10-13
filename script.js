@@ -1,3 +1,148 @@
+var tarotCards = [
+    {
+        img: 'images/Cards/The Fool.png',
+        name: 'The Fool: New beginnings, optimism, trust in life'
+    },
+    {
+        img: 'images/Cards/The Magician.png',
+        name: 'The Magician: Action, the power to manifest'
+    },
+    {
+        img: 'images/Cards/The High Priestess.png',
+        name: 'The High Priestess: Inaction, going within, the subconscious'
+    },
+    {
+        img: 'images/Cards/The Empress.png',
+        name: 'The Empress: Abundance, nurturing, fertility, life in bloom!'
+    },
+    {
+        img: 'images/Cards/The Emperor.png',
+        name: 'The Emperor: Structure, stability, rules and power'
+    },
+    {
+        img: 'images/Cards/The Hierophant.png',
+        name: 'The Hierophant: Institutions, tradition, society and its rules'
+    },
+    {
+        img: 'images/Cards/The Lovers.png',
+        name: 'The Lovers: Love, harmony, relationships, values alignment, choices'
+    },
+    {
+        img: 'images/Cards/The Chariot.png',
+        name: 'The Chariot: Movement, progress, integration'
+    },
+    {
+        img: 'images/Cards/Strength.png',
+        name: 'Strength: Courage, subtle power, integration of animal self'
+    },
+    {
+        img: 'images/Cards/The Hermit.png',
+        name: 'The Hermit: Meditation, solitude, consciousness'
+    },
+    {
+        img: 'images/Cards/Wheel of Fortune.png',
+        name: 'Wheel of Fortune: Cycles, change, ups and downs'
+    },
+    {
+        img: 'images/Cards/Justice.png',
+        name: 'Justice: Fairness, equality, balance'
+    },
+    {
+        img: 'images/Cards/The Hanged Man.png',
+        name: 'The Hanged Man: Surrender, new perspective, enlightenment'
+    },
+    {
+        img: 'images/Cards/Death.png',
+        name: 'Death: The end of something, change, the impermeability of all things'
+    },
+    {
+        img: 'images/Cards/Temperance.png',
+        name: 'Temperance: Balance, moderation, being sensible'
+    },
+
+    {
+        img: 'images/Cards/The Tower.png',
+        name: 'The Tower: Collapse of stable structures, release, sudden insight'
+    },
+    {
+        img: 'images/Cards/The Star.png',
+        name: 'The Star: Hope, calm, a good omen!'
+    },
+    {
+        img: 'images/Cards/The Moon.png',
+        name: 'The Moon: Mystery, the subconscious, dreams'
+    },
+    {
+        img: 'images/Cards/The Sun.png',
+        name: 'The Sun: Success, happiness, all will be well'
+    },
+    {
+        img: 'images/Cards/Judgment.png',
+        name: 'Judgement: Rebirth, a new phase, inner calling'
+    },
+    {
+        img: 'images/Cards/The World.png',
+        name: 'The World: Completion, wholeness, attainment, celebration of life'
+    }
+];
+
+// Summarize text utility
+function summarizeText(text, sentenceCount = 3) {
+    // Split into sentences
+    let sentences = text.match(/[^\.\!?]+[\.\!?]+/g) || [text];
+    // Split into words and count frequencies
+    let wordFreq = {};
+    let stopwords = new Set(["the", "is", "in", "at", "which", "on", "a", "an", "and", "of", "to", "for", "with", "that", "this"]);
+    text.toLowerCase().split(/\W+/).forEach(word => {
+        if (word && !stopwords.has(word)) {
+            wordFreq[word] = (wordFreq[word] || 0) + 1;
+        }
+    });
+    // Score sentences
+    let sentenceScores = sentences.map(s => {
+        let score = 0;
+        s.toLowerCase().split(/\W+/).forEach(word => {
+            if (wordFreq[word]) score += wordFreq[word];
+        });
+        return { sentence: s.trim(), score };
+    });
+    // Sort by score and pick top sentences
+    let summary = sentenceScores
+        .sort((a, b) => b.score - a.score)
+        .slice(0, sentenceCount)
+        .map(obj => obj.sentence)
+        .join(" ");
+
+    return summary;
+}
+
+// Get reading summary for 3 selected cards
+function getReading(selectedCardIndices) {
+    // selectedCardIndices: array of 3 indices from tarotCards
+    if (!Array.isArray(selectedCardIndices) || selectedCardIndices.length !== 3) return "Please select 3 cards.";
+    let descriptions = selectedCardIndices.map(idx => {
+        const card = tarotCards[idx];
+        return card?.description || card?.name || "";
+    }).join(" ");
+    return summarizeText(descriptions, 3);
+}
+
+// function getReading(selectedCardIndices) {
+//     // selectedCardIndices: array of 3 indices from tarotCards
+//     if (!Array.isArray(selectedCardIndices) || selectedCardIndices.length !== 3) return "Please select 3 cards.";
+//     let descriptions = selectedCardIndices.map(idx => {
+//         const card = tarotCards[idx];
+//         return card?.name || "";
+//     }).join("<br>");
+//     return descriptions;
+// }
+
+// function getReading(selectedCardIndices) {
+//     // selectedCardIndices: array of 3 indices from tarotCards
+//     if (!Array.isArray(selectedCardIndices) || selectedCardIndices.length !== 3) return "Please select 3 cards.";
+//     return selectedCardIndices.map(idx => tarotCards[idx]?.name || "").join('<br>');
+// }
+
 window.addEventListener('DOMContentLoaded', function () {
     var floatingImages = document.querySelectorAll('.container img.cover1');
     if (floatingImages.length === 1) {
@@ -189,7 +334,7 @@ window.addEventListener('DOMContentLoaded', function () {
         for (let i = 0; i < 3; i++) {
             const readingCard = document.createElement('div');
             readingCard.classList.add('reading-card');
-            readingCard.style.minWidth = '250px';
+            readingCard.style.minWidth = '200px';
             readingCard.style.height = '350px';
             readingCard.style.background = 'url("images/Card cover.png") no-repeat center/cover';
             readingCard.style.border = '3px solid #edce8c';
@@ -219,145 +364,6 @@ window.addEventListener('DOMContentLoaded', function () {
     `;
     document.head.appendChild(style);
 
-    var tarotCards = [
-        {
-            img: 'images/Cards/fool.png',
-            name: 'The Fool',
-            description: 'The Fool: New beginnings, optimism, and freedom.'
-        },
-        {
-            img: 'images/Cards/I-The-Magician-Earth-Woman-Tarot.jpg',
-            name: 'The Magician',
-            description: 'The Magician: Manifestation, resourcefulness, power.'
-        },
-        {
-            img: 'images/Cards/II-The-High-Priestess-Earth-Woman-Tarot.webp',
-            name: 'The High Priestess',
-            description: 'The High Priestess: Intuition, wisdom, mystery.'
-        },
-        {
-            img: 'images/Cards/III-The-Empress-Earth-Woman-Tarot.webp',
-            name: 'The Empress',
-            description: 'The Empress: Abundance, nurturing, fertility.'
-        },
-        {
-            img: 'images/Cards/IV-The-Emperor-Earth-Woman-Tarot.webp',
-            name: 'The Emperor',
-            description: 'The Emperor: Authority, structure, control.'
-        },
-        {
-            img: 'images/Cards/VII-The-Chariot-Earth-Woman-Tarot.webp',
-            name: 'The Chariot',
-            description: 'The Chariot: Determination, victory, willpower.'
-        },
-        {
-            img: 'images/Cards/VIII-Strength-Earth-Woman-Tarot.webp',
-            name: 'Strength',
-            description: 'Strength: Courage, patience, inner strength.'
-        },
-        {
-            img: 'images/Cards/XI-Justice-Earth-Woman-Tarot.webp',
-            name: 'Justice',
-            description: 'Justice: Fairness, truth, law.'
-        },
-        {
-            img: 'images/Cards/XII-The-Hanged-One-Earth-Woman-Tarot.webp',
-            name: 'The Hanged One',
-            description: 'The Hanged One: Surrender, perspective, pause.'
-        },
-        {
-            img: 'images/Cards/XIII-Death-Earth-Woman-Tarot.webp',
-            name: 'Death',
-            description: 'Death: Transformation, endings, change.'
-        },
-        {
-            img: 'images/Cards/XIX-The-Sun-Earth-Woman-Tarot.webp',
-            name: 'The Sun',
-            description: 'The Sun: Joy, success, positivity.'
-        },
-        {
-            img: 'images/Cards/10-of-Wands-Earth-Woman-Tarot.webp',
-            name: '10 of Wands',
-            description: '10 of Wands: Burden, responsibility, hard work.'
-        },
-        {
-            img: 'images/Cards/Eight-of-Cups-Earth-Woman-Tarot.webp',
-            name: '8 of Cups',
-            description: '8 of Cups: Walking away, introspection, change.'
-        },
-        {
-            img: 'images/Cards/Eight-of-Pentacles-Earth-Woman-Tarot.webp',
-            name: '8 of Pentacles',
-            description: '8 of Pentacles: Diligence, mastery, skill.'
-        },
-        {
-            img: 'images/Cards/Five-of-Wands-Earth-Woman-Tarot.webp',
-            name: '5 of Wands',
-            description: '5 of Wands: Conflict, competition, tension.'
-        },
-        {
-            img: 'images/Cards/Knight-of-Cups-Earth-Woman-Tarot.webp',
-            name: 'Knight of Cups',
-            description: 'Knight of Cups: Romance, imagination, charm.'
-        },
-        {
-            img: 'images/Cards/Knight-of-Pentacles-Earth-Woman-Tarot.webp',
-            name: 'Knight of Pentacles',
-            description: 'Knight of Pentacles: Efficiency, routine, responsibility.'
-        },
-        {
-            img: 'images/Cards/Nine-of-Cups-Earth-Woman-Tarot.webp',
-            name: '9 of Cups',
-            description: '9 of Cups: Satisfaction, emotional contentment.'
-        },
-        {
-            img: 'images/Cards/Nine-of-Swords-Earth-Woman-Tarot.webp',
-            name: '9 of Swords',
-            description: '9 of Swords: Anxiety, worry, fear.'
-        },
-        {
-            img: 'images/Cards/Nine-of-Wands-Earth-Woman-Tarot.webp',
-            name: '9 of Wands',
-            description: '9 of Wands: Resilience, persistence, boundaries.'
-        },
-        {
-            img: 'images/Cards/Queen-of-Wands-Earth-Woman-Tarot.webp',
-            name: 'Queen of Wands',
-            description: 'Queen of Wands: Confidence, independence, determination.'
-        },
-        {
-            img: 'images/Cards/Seven-of-Pentacles-Earth-Woman-Tarot.webp',
-            name: '7 of Pentacles',
-            description: '7 of Pentacles: Patience, investment, growth.'
-        },
-        {
-            img: 'images/Cards/Six-of-Swords-Earth-Woman-Tarot.webp',
-            name: '6 of Swords',
-            description: '6 of Swords: Transition, change, rite of passage.'
-        },
-        {
-            img: 'images/Cards/Ten-of-Cups-Earth-Woman-Tarot.webp',
-            name: '10 of Cups',
-            description: '10 of Cups: Happiness, harmony, fulfillment.'
-        },
-        {
-            img: 'images/Cards/Ten-of-Pentacles-Earth-Woman-Tarot.webp',
-            name: '10 of Pentacles',
-            description: '10 of Pentacles: Legacy, inheritance, stability.'
-        },
-        {
-            img: 'images/Cards/Three-of-Wands-Earth-Woman-Tarot.webp',
-            name: '3 of Wands',
-            description: '3 of Wands: Expansion, foresight, progress.'
-        },
-        {
-            img: 'images/Cards/Two-of-Pentacles.webp',
-            name: '2 of Pentacles',
-            description: '2 of Pentacles: Balance, adaptability, priorities.'
-        }
-    ];
-
-
     // Add click handlers for reading cards
     readingContainer.addEventListener('click', function (e) {
         const clickedCard = e.target.closest('.reading-card');
@@ -375,6 +381,8 @@ window.addEventListener('DOMContentLoaded', function () {
 
         // Get a random card from the tarot deck
         const tarotCard = tarotCards[randomIndex];
+        // Store the revealed index on the card for later retrieval
+        clickedCard.setAttribute('data-tarot-idx', randomIndex);
 
         // Flip animation
         clickedCard.classList.add('flipping');
@@ -407,7 +415,6 @@ window.addEventListener('DOMContentLoaded', function () {
             meaningText.style.borderRadius = '7px';
 
             clickedCard.innerHTML = '';
-            // clickedCard.appendChild(cardTitle);
             clickedCard.appendChild(meaningText);
 
             // Add hover effect for meaning
@@ -425,7 +432,10 @@ window.addEventListener('DOMContentLoaded', function () {
             // Show reset button when all 3 cards are flipped
             if (document.querySelectorAll('.reading-card.flipped').length === 3) {
                 setTimeout(() => {
-                    // Create a "Get Reading" button instead of showing reset button
+                    // Remove any existing Get Reading button
+                    const oldBtn = document.getElementById('get-reading-btn');
+                    if (oldBtn) oldBtn.remove();
+                    // Create a "Get Reading" button
                     const getReadingBtn = document.createElement('button');
                     getReadingBtn.classList.add('btn');
                     getReadingBtn.id = 'get-reading-btn';
@@ -469,8 +479,38 @@ window.addEventListener('DOMContentLoaded', function () {
                     });
                     // Add click event for the Get Reading button
                     getReadingBtn.addEventListener('click', function () {
-                        alert('Your detailed reading is being prepared...');
-                        // Here you can add code to show a more detailed reading
+                        // Get indices of the 3 flipped cards in the order they appear
+                        const flippedCards = Array.from(document.querySelectorAll('.reading-card.flipped'));
+                        const selectedIndices = flippedCards.map(card => {
+                            const idx = card.getAttribute('data-tarot-idx');
+                            return idx !== null ? parseInt(idx, 10) : undefined;
+                        });
+                        if (selectedIndices.length !== 3 || selectedIndices.some(idx => typeof idx !== 'number' || isNaN(idx))) {
+                            alert('Please flip all 3 cards first.');
+                            return;
+                        }
+                        const reading = getReading(selectedIndices);
+                        // Remove any previous reading summary
+                        let readingSummaryDiv = document.getElementById('reading-summary');
+                        if (!readingSummaryDiv) {
+                            readingSummaryDiv = document.createElement('div');
+                            readingSummaryDiv.id = 'reading-summary';
+                            readingSummaryDiv.style.position = 'absolute';
+                            readingSummaryDiv.style.top = '90%';
+                            readingSummaryDiv.style.left = '50%';
+                            readingSummaryDiv.style.transform = 'translateX(-50%)';
+                            readingSummaryDiv.style.background = 'rgba(255,255,255,0.95)';
+                            readingSummaryDiv.style.color = '#412058';
+                            readingSummaryDiv.style.border = '2px solid #edce8c';
+                            readingSummaryDiv.style.borderRadius = '10px';
+                            readingSummaryDiv.style.padding = '18px 24px';
+                            readingSummaryDiv.style.fontSize = '1.1rem';
+                            readingSummaryDiv.style.fontFamily = 'serif';
+                            readingSummaryDiv.style.zIndex = '20';
+                            document.body.appendChild(readingSummaryDiv);
+                        }
+                        readingSummaryDiv.innerHTML = `<h2 style='margin-top:0;text-align:center;font-family:Lavishly Yours,serif;'>Your Tarot Reading</h2><p style='margin-bottom:0;text-align:center;'>${reading}</p>`;
+                        // this.disabled = true;
                     });
 
                     // Remove instruction text
