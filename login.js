@@ -26,6 +26,26 @@ window.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
+            // Check for admin credentials first
+            var adminUsername = 'admin';
+            var adminPassword = 'admin123';
+
+            if (username.value === adminUsername && password.value === adminPassword) {
+                if (alertBox) {
+                    alertBox.textContent = 'Admin login successful!';
+                    alertBox.style.color = 'green';
+                } else {
+                    alert('Admin login successful!');
+                }
+                loginForm.reset();
+                
+                // Redirect to admin page after short delay
+                setTimeout(function () {
+                    window.location.href = 'admin.html';
+                }, 1500);
+                return; // Stop further execution
+            }
+
             // Retrieve user data from localStorage
             var userData = localStorage.getItem('userData');
             if (userData) {
