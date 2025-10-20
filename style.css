@@ -274,6 +274,193 @@ a {
     50% { border-color: transparent; }
 }
 
+/* Media Queries for Responsive Design */
+
+/* Small Mobile Devices (up to 480px) */
+@media screen and (max-width: 480px) {
+    .container.main {
+        width: 95%;
+        min-height: 80%;
+    }
+    
+    .container.main .hero .heading1 {
+        font-size: 2.5rem;
+        top: 10%;
+    }
+    
+    .container.main .hero .heading2 {
+        font-size: 1rem;
+        top: 30%;
+        width: 90%;
+    }
+    
+    .container.main button a {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        top: 55%;
+    }
+    
+    .container.main button:hover a {
+        padding: 8px 16px;
+        font-size: 1rem;
+    }
+}
+
+/* Medium Mobile Devices (481px - 767px) */
+@media screen and (min-width: 481px) and (max-width: 767px) {
+    .container.main {
+        width: 90%;
+        min-height: 75%;
+    }
+    
+    .container.main .hero .heading1 {
+        font-size: 3rem;
+        top: 12%;
+    }
+    
+    .container.main .hero .heading2 {
+        font-size: 1.2rem;
+        top: 32%;
+        width: 85%;
+    }
+    
+    .container.main button a {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+        top: 58%;
+    }
+    
+    .container.main button:hover a {
+        padding: 10px 20px;
+        font-size: 1.05rem;
+    }
+}
+
+/* Tablets (768px - 1023px) */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .container.main .hero .heading1 {
+        font-size: 3.5rem;
+        top: 15%;
+    }
+    
+    .container.main .hero .heading2 {
+        font-size: 1.3rem;
+        top: 33%;
+        width: 80%;
+    }
+    
+    .container.main button a {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+    
+    .container.main button:hover a {
+        font-size: 1.1rem;
+    }
+}
+
+/* Small Desktops (1024px - 1279px) */
+@media screen and (min-width: 1024px) and (max-width: 1279px) {
+    .container.main .hero .heading1 {
+        font-size: 4rem;
+    }
+    
+    .container.main .hero .heading2 {
+        font-size: 1.4rem;
+        top: 34%;
+    }
+}
+
+/* Landscape Orientation */
+@media screen and (orientation: landscape) and (max-height: 600px) {
+    .container.main .hero .heading1 {
+        font-size: 2.8rem;
+        top: 10%;
+    }
+    
+    .container.main .hero .heading2 {
+        font-size: 1.1rem;
+        top: 40%;
+    }
+    
+    .container.main button a {
+        top: 70%;
+        padding: 8px 16px;
+    }
+}
+
+/* High-Resolution Devices */
+@media screen and (-webkit-min-device-pixel-ratio: 2), 
+       screen and (min-resolution: 192dpi) {
+    .container.main button a,
+    .container.main button:hover a {
+        border-width: 3px;
+    }
+}
+
+/* Print Media */
+@media print {
+    section {
+        background: none !important;
+    }
+    
+    .container.main {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        background: #fff;
+    }
+    
+    .container.main .hero .heading1 {
+        color: #333;
+        text-shadow: none;
+        font-size: 3rem;
+    }
+    
+    .container.main .hero .heading2 {
+        color: #555;
+        text-shadow: none;
+        font-size: 1.2rem;
+    }
+    
+    .container.main button a {
+        border: 1px solid #333;
+        color: #333;
+        background: none;
+    }
+    
+    .container.main img.wheel1,
+    .container.main img.moon1,
+    .container.main img.star1 {
+        display: none;
+    }
+    
+    section .star {
+        display: none;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    /* Already in dark mode, but we can enhance it further if needed */
+    .container.main {
+        box-shadow: 0 0 40px rgba(140, 180, 255, 0.3);
+    }
+}
+
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+    section .star,
+    .container.main img.wheel1,
+    .container.main img.cover1,
+    .container.main img.cover2 {
+        animation: none;
+    }
+    
+    .container.main .hero .heading1 {
+        animation: none;
+    }
+}
+
 /* 
 #D4CBD0, #908196, #806884, #664D6B, #4F335B
 */
