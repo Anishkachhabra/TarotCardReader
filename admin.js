@@ -312,9 +312,7 @@ clearModal.addEventListener('click', function (e) {
 
 // Logout
 logoutBtn.addEventListener('click', function () {
-  if (confirm('Are you sure you want to logout?')) {
-    window.location.href = 'login.html';
-  }
+  window.location.href = 'login.html';
 });
 
 // Initial load - ensure cards are initialized first
