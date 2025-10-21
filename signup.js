@@ -1,62 +1,75 @@
+// Enhanced Signup with Email Uniqueness & Password Strength
+window.addEventListener('DOMContentLoaded', function () {
+    const signupForm = document.querySelector('form');
+    if (!signupForm) return;
 
-window.addEventListener('DOMContentLoaded', function() {
-	var signupForm = document.querySelector('form');
-	if (signupForm) {
-		signupForm.addEventListener('submit', function(e) {
-			e.preventDefault();
-			var username = document.getElementById('username');
-			var email = document.getElementById('email');
-			var password = document.getElementById('password');
-			var errorMsg = '';
+    signupForm.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-			// Basic validation
-			if (!username || username.value.trim() === '') {
-				errorMsg += 'Username is required.\n';
-			}
-			if (!email || !/^\S+@\S+\.\S+$/.test(email.value)) {
-				errorMsg += 'Valid email is required.\n';
-			}
-			if (!password || password.value.length < 6) {
-				errorMsg += 'Password must be at least 6 characters.\n';
-			}
+        const username = document.getElementById('username');
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+        const alertBox = document.querySelector('.error');
+        let errorMsg = '';
 
-            var alert = document.querySelector('.error');
+        // --- Validation ---
+        if (!username || username.value.trim() === '') {
+            errorMsg += 'Username is required.\n';
+        }
 
-			if (errorMsg) {
-                alert.textContent = errorMsg;
-                alert.style.color = 'red';
-				return;
-			}
+        if (!email || !/^\S+@\S+\.\S+$/.test(email.value)) {
+            errorMsg += 'A valid email address is required.\n';
+        }
 
-			// Store user data in localStorage
-            // Get existing users or initialize empty array
-            var existingUsers = JSON.parse(localStorage.getItem('userData')) || [];
-            var userData = {
-                username: username.value,
-                signupTime: new Date().toISOString(),
-                email: email.value,
-                password: password.value // Note: In production, never store plain passwords
-            };
+        if (!password || password.value.trim() === '') {
+            errorMsg += 'Password is required.\n';
+        } else if (password.value.length < 8) {
+            errorMsg += 'Password must be at least 8 characters.\n';
+        } else if (!/[A-Z]/.test(password.value)) {
+            errorMsg += 'Password must contain at least one uppercase letter.\n';
+        } else if (!/[a-z]/.test(password.value)) {
+            errorMsg += 'Password must contain at least one lowercase letter.\n';
+        } else if (!/[0-9]/.test(password.value)) {
+            errorMsg += 'Password must contain at least one number.\n';
+        } else if (!/[!@#$%^&*]/.test(password.value)) {
+            errorMsg += 'Password must contain at least one special character (!@#$%^&*).\n';
+        }
 
-            // If existingUsers is not an array (was storing a single user before), convert to array
-            if (!Array.isArray(existingUsers)) {
-                existingUsers = [existingUsers];
-            }
+        if (errorMsg) {
+            alertBox.textContent = errorMsg;
+            alertBox.style.color = 'red';
+            return;
+        }
 
-            // Add new user to array
-            existingUsers.push(userData);
+        // --- Fetch existing users ---
+        let users = JSON.parse(localStorage.getItem('userData')) || [];
 
-            // Store updated array back to localStorage
-            localStorage.setItem('userData', JSON.stringify(existingUsers));
-            localStorage.setItem('currentUser', username.value); // Track current user
-			alert.textContent = 'Signup successful!';
-            alert.style.color = 'green';
-			signupForm.reset();
+        // --- Check for duplicate email ---
+        const existingUser = users.find(u => u.email.toLowerCase() === email.value.toLowerCase());
+        if (existingUser) {
+            alertBox.textContent = 'Email already registered. Please log in instead.';
+            alertBox.style.color = 'red';
+            return;
+        }
 
-			// Redirect to landing page after successful signup
-			setTimeout(function() {
-				window.location.href = 'landing.html';
-			}, 1500); // Wait 1.5 seconds so user can see success message
-		});
-	}
+        // --- Create new user ---
+        const newUser = {
+            username: username.value.trim(),
+            email: email.value.trim(),
+            password: password.value.trim(), // Note: For production, use hashing (bcrypt)
+            createdAt: new Date().toISOString()
+        };
+
+        users.push(newUser);
+        localStorage.setItem('userData', JSON.stringify(users));
+        localStorage.setItem('currentUser', email.value.trim());
+
+        alertBox.textContent = 'Signup successful! Redirecting...';
+        alertBox.style.color = 'green';
+        signupForm.reset();
+
+        setTimeout(() => {
+            window.location.href = 'landing.html';
+        }, 1500);
+    });
 });

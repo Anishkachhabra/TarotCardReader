@@ -656,7 +656,7 @@ body {
 }
 
 /* Very Short Screens */
-@media (max-height: 500px) {
+/* @media (max-height: 500px) {
   .cards-wrapper {
     top: 20%;
   }
@@ -664,18 +664,18 @@ body {
   .controls {
     bottom: 2%;
   }
-}
+} */
 
 /* iPhone SE and similar small screens */
-@media (max-width: 375px) and (max-height: 667px) {
+/* @media (max-width: 375px) and (max-height: 667px) {
   .hero h3 {
     top: 5%;
   }
 
   .cards-wrapper {
-    top: 20%;
+    top: 0%;
   }
-}
+} */
 
 /* Touch device optimizations */
 @media (hover: none) and (pointer: coarse) {
@@ -687,5 +687,102 @@ body {
   .btn:active {
     background: rgba(102, 66, 117, 0.9);
     transform: scale(0.95);
+  }
+}
+
+/* ============================================
+   FINAL SLIDE RESPONSIVENESS & TRANSITIONS
+   ============================================ */
+
+.cards-wrapper-reveal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(15px, 3vw, 30px);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-bottom: clamp(40px, 6vh, 70px);
+  transition: all 0.5s ease;
+}
+
+.reading-card {
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  will-change: transform;
+}
+
+.reading-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(237, 206, 140, 0.6);
+}
+
+#reading-summary {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 1s ease forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE TWEAKS */
+@media (max-width: 768px) {
+  .cards-wrapper-reveal {
+    gap: 18px;
+    margin-bottom: clamp(25px, 4vh, 50px);
+  }
+
+  #reading-summary {
+    width: 92%;
+    padding: clamp(16px, 4vw, 28px);
+    font-size: clamp(0.85rem, 2vw, 1rem);
+  }
+}
+
+@media (max-width: 530px) {
+  .cards-wrapper-reveal {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .reading-card {
+    min-width: 100px !important;
+    height: 220px !important;
+  }
+
+  #reading-summary {
+    width: 95%;
+    padding: 18px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+}
+
+
+@media (max-width: 380px) {
+  .cards-wrapper-reveal {
+    gap: 15px;
+    margin-top: 40% !important;
+  }
+
+  #reading-summary {
+    width: 98%;
+    padding: 15px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  .reading-card {
+    min-width: 90px !important;
+    height: 200px !important;
   }
 }

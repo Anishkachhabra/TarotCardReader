@@ -101,8 +101,8 @@ function getReading(selectedCardIndices) {
 
     const tone =
         toneScore > 0 ? "positive" :
-        toneScore < 0 ? "challenging" :
-        "balanced";
+            toneScore < 0 ? "challenging" :
+                "balanced";
 
     // ✨ Dynamic tone phrasing
     const toneOpeners = {
@@ -215,7 +215,7 @@ window.addEventListener('DOMContentLoaded', function () {
     // Handle card selection
     cardsContainer.addEventListener("click", (e) => {
         if (revealBtnClicked) return;
-        
+
         const card = e.target.closest(".card");
         if (!card) return;
 
@@ -252,17 +252,30 @@ window.addEventListener('DOMContentLoaded', function () {
         let readingContainer = document.getElementById('reading-container');
         readingContainer.innerHTML = '';
 
+        // Make reading container scrollable
+        readingContainer.style.position = 'absolute';
+        readingContainer.style.top = '0';
+        readingContainer.style.left = '0';
+        readingContainer.style.width = '100%';
+        readingContainer.style.minHeight = '100vh';
+        readingContainer.style.height = 'auto';
+        readingContainer.style.overflowY = 'auto';
+        readingContainer.style.overflowX = 'hidden';
+        readingContainer.style.paddingBottom = '60px';
+        readingContainer.style.paddingTop = '20px';
+
         const instructionHeading = document.createElement('h1');
         instructionHeading.textContent = "Click on the cards to reveal your future";
         instructionHeading.style.color = '#412058c0';
         instructionHeading.style.textAlign = 'center';
         instructionHeading.style.width = '100%';
-        instructionHeading.style.position = 'absolute';
-        instructionHeading.style.top = '55%';
+        instructionHeading.style.marginTop = 'clamp(20px, 5vh, 40px)';
         instructionHeading.style.fontFamily = 'Lavishly Yours, serif';
-        instructionHeading.style.fontSize = 'clamp(1.5rem, 4vw, 3rem)';
+        instructionHeading.style.fontSize = 'clamp(1.2rem, 3vw, 2.2rem)';
         instructionHeading.style.opacity = '0';
         instructionHeading.style.padding = '0 20px';
+        instructionHeading.style.lineHeight = '1.3';
+        instructionHeading.style.marginBottom = 'clamp(20px, 4vh, 40px)';
         readingContainer.appendChild(instructionHeading);
 
         setTimeout(() => {
@@ -272,33 +285,42 @@ window.addEventListener('DOMContentLoaded', function () {
 
         window.revealedIndices = [];
         const cardsWrapper = document.createElement('div');
+        cardsWrapper.classList.add('cards-wrapper-reveal');
         cardsWrapper.style.display = 'flex';
         cardsWrapper.style.gap = 'clamp(15px, 3vw, 30px)';
         cardsWrapper.style.justifyContent = 'center';
         cardsWrapper.style.alignItems = 'center';
         cardsWrapper.style.flexWrap = 'wrap';
         cardsWrapper.style.padding = '0 20px';
+        cardsWrapper.style.width = '100%';
+        cardsWrapper.style.maxWidth = '1200px';
+        cardsWrapper.style.margin = '0 auto';
+        cardsWrapper.style.marginBottom = 'clamp(40px, 10vh, 80px)';
+        cardsWrapper.style.minHeight = 'clamp(250px, 40vw, 350px)';
 
         for (let i = 0; i < 3; i++) {
             const readingCard = document.createElement('div');
             readingCard.classList.add('reading-card');
-            readingCard.style.minWidth = 'clamp(150px, 25vw, 200px)';
-            readingCard.style.height = 'clamp(250px, 40vw, 350px)';
+            readingCard.style.minWidth = 'clamp(130px, 22vw, 190px)';
+            readingCard.style.height = 'clamp(220px, 35vw, 320px)';
             readingCard.style.background = 'url("images/Card cover.png") no-repeat center/cover';
             readingCard.style.border = '3px solid #edce8c';
             readingCard.style.borderRadius = '10px';
             readingCard.style.boxShadow = '0 0 20px rgba(0,0,0,0.5)';
-            readingCard.style.alignItems = 'center';
             readingCard.style.color = '#fff';
             readingCard.style.padding = '15px';
             readingCard.style.transform = 'scale(0)';
             readingCard.style.animation = `revealCard 0.8s ${i * 0.3}s forwards ease-out`;
             readingCard.style.cursor = 'pointer';
             readingCard.style.position = 'relative';
+            readingCard.style.transition = 'all 0.3s ease';
             cardsWrapper.appendChild(readingCard);
         }
         readingContainer.appendChild(cardsWrapper);
         readingContainer.style.opacity = '1';
+
+        // Setup card click handler
+        setupCardClickHandler(readingContainer);
     });
 
     // Reset button logic
@@ -323,7 +345,17 @@ window.addEventListener('DOMContentLoaded', function () {
         let readingContainer = document.getElementById('reading-container');
         if (readingContainer) {
             readingContainer.style.opacity = '0';
-            setTimeout(() => readingContainer.innerHTML = '', 300);
+            setTimeout(() => {
+                readingContainer.innerHTML = '';
+                // Reset container styles
+                readingContainer.style.position = '';
+                readingContainer.style.top = '';
+                readingContainer.style.left = '';
+                readingContainer.style.width = '';
+                readingContainer.style.minHeight = '';
+                readingContainer.style.overflowY = '';
+                readingContainer.style.paddingBottom = '';
+            }, 300);
         }
     });
 
@@ -341,11 +373,6 @@ window.addEventListener('DOMContentLoaded', function () {
             100% { transform: rotateY(0deg) rotateX(0deg); opacity: 1; }
         }
 
-        @keyframes moveCardsUp {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-60px); }
-        }
-
         .reading-card {
             transition: all 0.3s ease;
             transform-style: preserve-3d;
@@ -361,211 +388,314 @@ window.addEventListener('DOMContentLoaded', function () {
             word-wrap: break-word;
         }
 
-        .move-up {
-            animation: moveCardsUp 0.6s forwards;
-        }
-
+        /* Mobile and Tablet Responsive */
         @media (max-width: 768px) {
             #reading-container h1 {
-                font-size: 1.5rem !important;
+                font-size: clamp(1.1rem, 3vw, 1.5rem) !important;
+                margin-top: clamp(30px, 6vh, 50px) !important;
+                margin-bottom: clamp(20px, 4vh, 30px) !important;
             }
+            
+            .reading-card {
+                min-width: clamp(120px, 28vw, 160px) !important;
+                height: clamp(200px, 44vw, 270px) !important;
+            }
+
+            .cards-wrapper-reveal {
+                margin-bottom: clamp(20px, 4vh, 40px) !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #reading-container h1 {
+                font-size: clamp(1rem, 3.5vw, 1.3rem) !important;
+                margin-top: clamp(20px, 5vh, 40px) !important;
+                margin-bottom: clamp(15px, 3vh, 25px) !important;
+                line-height: 1.2 !important;
+            }
+            
+            .reading-card {
+                min-width: clamp(110px, 30vw, 140px) !important;
+                height: clamp(185px, 48vw, 240px) !important;
+            }
+
+            .cards-wrapper-reveal {
+                gap: clamp(12px, 2.5vw, 20px) !important;
+                margin-bottom: clamp(15px, 3vh, 30px) !important;
+            }
+        }
+
+        @media (max-height: 600px) and (orientation: landscape) {
+            #reading-container h1 {
+                font-size: clamp(1rem, 2.5vh, 1.3rem) !important;
+                margin-top: 20px !important;
+                margin-bottom: 20px !important;
+            }
+            
+            .reading-card {
+                min-width: 120px !important;
+                height: 200px !important;
+            }
+
+            .cards-wrapper-reveal {
+                margin-bottom: 20px !important;
+            }
+        }
+
+        /* Ensure smooth scrolling */
+        #reading-container {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            max-height: 100vh;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+        }
+
+        #reading-container::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        #reading-container::-webkit-scrollbar-track {
+            background: rgba(79, 51, 91, 0.3);
+            border-radius: 10px;
+        }
+
+        #reading-container::-webkit-scrollbar-thumb {
+            background: #edce8c;
+            border-radius: 10px;
+            border: 2px solid rgba(79, 51, 91, 0.3);
+        }
+
+        #reading-container::-webkit-scrollbar-thumb:hover {
+            background: #f4d99e;
+        }
+
+        /* Firefox scrollbar */
+        #reading-container {
+            scrollbar-width: thin;
+            scrollbar-color: #edce8c rgba(79, 51, 91, 0.3);
         }
     `;
     document.head.appendChild(style);
 
-    // Reading card click handler
-    let readingContainer = document.getElementById('reading-container');
-    readingContainer.addEventListener('click', function (e) {
-        const clickedCard = e.target.closest('.reading-card');
-        if (!clickedCard || clickedCard.classList.contains('flipped')) return;
+    // Function to setup card click handler
+    function setupCardClickHandler(readingContainer) {
+        const cardsInContainer = readingContainer.querySelectorAll('.reading-card');
 
-        let randomIndex;
-        do {
-            randomIndex = Math.floor(Math.random() * tarotCards.length);
-        } while (window.revealedIndices && window.revealedIndices.includes(randomIndex));
+        cardsInContainer.forEach(clickedCard => {
+            clickedCard.addEventListener('click', function () {
+                if (clickedCard.classList.contains('flipped')) return;
 
-        if (!window.revealedIndices) window.revealedIndices = [];
-        window.revealedIndices.push(randomIndex);
+                let randomIndex;
+                do {
+                    randomIndex = Math.floor(Math.random() * tarotCards.length);
+                } while (window.revealedIndices && window.revealedIndices.includes(randomIndex));
 
-        const tarotCard = tarotCards[randomIndex];
-        clickedCard.setAttribute('data-tarot-idx', randomIndex);
+                if (!window.revealedIndices) window.revealedIndices = [];
+                window.revealedIndices.push(randomIndex);
 
-        clickedCard.classList.add('flipping');
+                const tarotCard = tarotCards[randomIndex];
+                clickedCard.setAttribute('data-tarot-idx', randomIndex);
 
-        setTimeout(() => {
-            clickedCard.style.background = `url("${tarotCard.img}") no-repeat center/cover`;
+                clickedCard.classList.add('flipping');
 
-            const meaningText = document.createElement('div');
-            meaningText.classList.add('card-meaning');
-            meaningText.innerHTML = `<p>${tarotCard.name}</p>`;
-            meaningText.style.position = 'absolute';
-            meaningText.style.top = '0';
-            meaningText.style.left = '0';
-            meaningText.style.width = '100%';
-            meaningText.style.height = '100%';
-            meaningText.style.background = 'rgba(0,0,0,0.85)';
-            meaningText.style.color = '#fff';
-            meaningText.style.padding = 'clamp(10px, 3vw, 20px)';
-            meaningText.style.boxSizing = 'border-box';
-            meaningText.style.opacity = '0';
-            meaningText.style.transition = 'opacity 0.3s ease';
-            meaningText.style.display = 'flex';
-            meaningText.style.alignItems = 'center';
-            meaningText.style.justifyContent = 'center';
-            meaningText.style.fontSize = 'clamp(0.75rem, 2vw, 0.9rem)';
-            meaningText.style.lineHeight = '1.4';
-            meaningText.style.textAlign = 'center';
-            meaningText.style.borderRadius = '7px';
-            meaningText.style.margin = '0';
-
-            clickedCard.innerHTML = '';
-            clickedCard.appendChild(meaningText);
-
-            clickedCard.addEventListener('mouseenter', () => meaningText.style.opacity = '1');
-            clickedCard.addEventListener('mouseleave', () => meaningText.style.opacity = '0');
-
-            clickedCard.classList.remove('flipping');
-            clickedCard.classList.add('flipped');
-
-            if (document.querySelectorAll('.reading-card.flipped').length === 3) {
                 setTimeout(() => {
-                    const oldBtn = document.getElementById('get-reading-btn');
-                    if (oldBtn) oldBtn.remove();
-                    
-                    const getReadingBtn = document.createElement('button');
-                    getReadingBtn.classList.add('btn');
-                    getReadingBtn.id = 'get-reading-btn';
-                    getReadingBtn.textContent = 'Get Reading';
-                    getReadingBtn.style.position = 'fixed';
-                    getReadingBtn.style.bottom = 'clamp(60px, 10vh, 80px)';
-                    getReadingBtn.style.left = '50%';
-                    getReadingBtn.style.transform = 'translateX(-50%)';
-                    getReadingBtn.style.padding = 'clamp(10px, 2vw, 12px) clamp(24px, 4vw, 32px)';
-                    getReadingBtn.style.fontSize = 'clamp(1rem, 2vw, 1.2rem)';
-                    getReadingBtn.style.background = '#4F335B';
-                    getReadingBtn.style.color = '#fff';
-                    getReadingBtn.style.border = '2px solid #edce8c';
-                    getReadingBtn.style.borderRadius = '8px';
-                    getReadingBtn.style.zIndex = '10';
-                    getReadingBtn.style.transition = 'all 0.3s ease';
-                    getReadingBtn.style.cursor = 'pointer';
-                    getReadingBtn.style.fontFamily = 'Cinzel Decorative, serif';
-                    document.body.appendChild(getReadingBtn);
+                    clickedCard.style.background = `url("${tarotCard.img}") no-repeat center/cover`;
 
-                    getReadingBtn.addEventListener('mouseenter', function () {
-                        this.style.background = '#664275';
-                        this.style.transform = 'translateX(-50%) scale(1.05)';
-                        this.style.boxShadow = '0 0 15px rgba(237, 206, 140, 0.6)';
-                    });
+                    const meaningText = document.createElement('div');
+                    meaningText.classList.add('card-meaning');
+                    meaningText.innerHTML = `<p>${tarotCard.name}</p>`;
+                    meaningText.style.position = 'absolute';
+                    meaningText.style.top = '0';
+                    meaningText.style.left = '0';
+                    meaningText.style.width = '100%';
+                    meaningText.style.height = '100%';
+                    meaningText.style.background = 'rgba(0,0,0,0.85)';
+                    meaningText.style.color = '#fff';
+                    meaningText.style.padding = 'clamp(10px, 3vw, 20px)';
+                    meaningText.style.boxSizing = 'border-box';
+                    meaningText.style.opacity = '0';
+                    meaningText.style.transition = 'opacity 0.3s ease';
+                    meaningText.style.display = 'flex';
+                    meaningText.style.alignItems = 'center';
+                    meaningText.style.justifyContent = 'center';
+                    meaningText.style.fontSize = 'clamp(0.7rem, 1.8vw, 0.9rem)';
+                    meaningText.style.lineHeight = '1.4';
+                    meaningText.style.textAlign = 'center';
+                    meaningText.style.borderRadius = '7px';
+                    meaningText.style.margin = '0';
 
-                    getReadingBtn.addEventListener('mouseleave', function () {
-                        this.style.background = '#4F335B';
-                        this.style.transform = 'translateX(-50%) scale(1)';
-                        this.style.boxShadow = 'none';
-                    });
+                    clickedCard.innerHTML = '';
+                    clickedCard.appendChild(meaningText);
 
-                    getReadingBtn.addEventListener('click', function () {
-                        const flippedCards = Array.from(document.querySelectorAll('.reading-card.flipped'));
-                        const selectedIndices = flippedCards.map(card => {
-                            const idx = card.getAttribute('data-tarot-idx');
-                            return idx !== null ? parseInt(idx, 10) : undefined;
-                        });
-                        
-                        if (selectedIndices.length !== 3 || selectedIndices.some(idx => typeof idx !== 'number' || isNaN(idx))) {
-                            showPopup('Please flip all 3 cards first.');
-                            return;
-                        }
+                    clickedCard.addEventListener('mouseenter', () => meaningText.style.opacity = '1');
+                    clickedCard.addEventListener('mouseleave', () => meaningText.style.opacity = '0');
 
-                        flippedCards.forEach(card => card.classList.add('move-up'));
-                        const reading = getReading(selectedIndices);
+                    clickedCard.classList.remove('flipping');
+                    clickedCard.classList.add('flipped');
 
+                    if (readingContainer.querySelectorAll('.reading-card.flipped').length === 3) {
                         setTimeout(() => {
-                            let readingSummaryDiv = document.getElementById('reading-summary');
-                            if (readingSummaryDiv) readingSummaryDiv.remove();
+                            const oldBtn = document.getElementById('get-reading-btn');
+                            if (oldBtn) oldBtn.remove();
 
-                            readingSummaryDiv = document.createElement('div');
-                            readingSummaryDiv.id = 'reading-summary';
-                            readingSummaryDiv.style.position = 'fixed';
-                            readingSummaryDiv.style.top = '55%';
-                            readingSummaryDiv.style.left = '50%';
-                            readingSummaryDiv.style.transform = 'translate(-50%, -50%)';
-                            readingSummaryDiv.style.background = 'rgba(255, 238, 200, 0.95)';
-                            readingSummaryDiv.style.color = '#412058';
-                            readingSummaryDiv.style.border = '2px solid #edce8c';
-                            readingSummaryDiv.style.borderRadius = '15px';
-                            readingSummaryDiv.style.padding = 'clamp(20px, 4vw, 40px)';
-                            readingSummaryDiv.style.fontSize = 'clamp(0.85rem, 2vw, 1rem)';
-                            readingSummaryDiv.style.fontFamily = 'serif';
-                            readingSummaryDiv.style.zIndex = '20';
-                            readingSummaryDiv.style.width = '90%';
-                            readingSummaryDiv.style.maxWidth = '650px';
-                            readingSummaryDiv.style.opacity = '0';
-                            readingSummaryDiv.style.transition = 'opacity 0.8s ease-in';
-                            readingSummaryDiv.style.lineHeight = '1.6';
-                            readingSummaryDiv.style.maxHeight = '60vh';
-                            readingSummaryDiv.style.overflowY = 'auto';
-                            readingSummaryDiv.style.scrollBehavior = 'smooth';
-                            readingSummaryDiv.style.boxShadow = '0 8px 32px rgba(0,0,0,0.3)';
+                            const getReadingBtn = document.createElement('button');
+                            getReadingBtn.classList.add('btn');
+                            getReadingBtn.id = 'get-reading-btn';
+                            getReadingBtn.textContent = 'Get Reading';
+                            getReadingBtn.style.display = 'block';
+                            getReadingBtn.style.margin = '0 auto';
+                            getReadingBtn.style.marginTop = 'clamp(20px, 4vh, 40px)';
+                            getReadingBtn.style.marginBottom = 'clamp(50px, 8vh, 80px)';
+                            getReadingBtn.style.padding = 'clamp(10px, 2vh, 14px) clamp(24px, 4vw, 36px)';
+                            getReadingBtn.style.fontSize = 'clamp(0.95rem, 2vw, 1.2rem)';
+                            getReadingBtn.style.background = '#4F335B';
+                            getReadingBtn.style.color = '#fff';
+                            getReadingBtn.style.border = '2px solid #edce8c';
+                            getReadingBtn.style.borderRadius = '8px';
+                            getReadingBtn.style.transition = 'all 0.3s ease';
+                            getReadingBtn.style.cursor = 'pointer';
+                            getReadingBtn.style.fontFamily = 'Cinzel Decorative, serif';
+                            getReadingBtn.style.whiteSpace = 'nowrap';
+                            getReadingBtn.style.fontWeight = '600';
 
-                            const heading = document.createElement('h2');
-                            heading.textContent = 'Your Tarot Reading';
-                            heading.style.marginTop = '0';
-                            heading.style.marginBottom = 'clamp(15px, 3vw, 20px)';
-                            heading.style.textAlign = 'center';
-                            heading.style.fontFamily = 'Lavishly Yours, serif';
-                            heading.style.fontSize = 'clamp(1.5rem, 4vw, 2rem)';
-                            heading.style.color = '#4F335B';
+                            readingContainer.appendChild(getReadingBtn);
 
-                            const readingText = document.createElement('p');
-                            readingText.textContent = reading;
-                            readingText.style.marginBottom = 'clamp(15px, 3vw, 25px)';
-                            readingText.style.textAlign = 'justify';
-
-                            const retryBtn = document.createElement('button');
-                            retryBtn.textContent = 'Try Again';
-                            retryBtn.style.display = 'block';
-                            retryBtn.style.margin = '0 auto';
-                            retryBtn.style.padding = 'clamp(8px, 2vw, 12px) clamp(20px, 4vw, 32px)';
-                            retryBtn.style.background = '#4F335B';
-                            retryBtn.style.color = '#fff';
-                            retryBtn.style.border = '2px solid #edce8c';
-                            retryBtn.style.borderRadius = '8px';
-                            retryBtn.style.fontSize = 'clamp(0.9rem, 2vw, 1.1rem)';
-                            retryBtn.style.fontFamily = 'Cinzel Decorative, serif';
-                            retryBtn.style.cursor = 'pointer';
-                            retryBtn.style.transition = 'all 0.3s ease';
-                            retryBtn.style.fontWeight = 'bold';
-
-                            retryBtn.addEventListener('mouseenter', () => {
-                                retryBtn.style.background = '#664275';
-                                retryBtn.style.transform = 'scale(1.05)';
+                            getReadingBtn.addEventListener('mouseenter', function () {
+                                this.style.background = '#664275';
+                                this.style.transform = 'scale(1.05)';
+                                this.style.boxShadow = '0 0 15px rgba(237, 206, 140, 0.6)';
                             });
 
-                            retryBtn.addEventListener('mouseleave', () => {
-                                retryBtn.style.background = '#4F335B';
-                                retryBtn.style.transform = 'scale(1)';
+                            getReadingBtn.addEventListener('mouseleave', function () {
+                                this.style.background = '#4F335B';
+                                this.style.transform = 'scale(1)';
+                                this.style.boxShadow = 'none';
                             });
 
-                            retryBtn.addEventListener('click', () => {
-                                window.location.reload();
+                            getReadingBtn.addEventListener('click', function () {
+                                const flippedCards = Array.from(readingContainer.querySelectorAll('.reading-card.flipped'));
+                                const selectedIndices = flippedCards.map(card => {
+                                    const idx = card.getAttribute('data-tarot-idx');
+                                    return idx !== null ? parseInt(idx, 10) : undefined;
+                                });
+
+                                if (selectedIndices.length !== 3 || selectedIndices.some(idx => typeof idx !== 'number' || isNaN(idx))) {
+                                    showPopup('Please flip all 3 cards first.');
+                                    return;
+                                }
+
+                                const reading = getReading(selectedIndices);
+
+                                // Remove the button
+                                this.style.opacity = '0';
+                                setTimeout(() => this.remove(), 300);
+
+                                setTimeout(() => {
+                                    let readingSummaryDiv = document.getElementById('reading-summary');
+                                    if (readingSummaryDiv) readingSummaryDiv.remove();
+
+                                    readingSummaryDiv = document.createElement('div');
+                                    readingSummaryDiv.id = 'reading-summary';
+                                    readingSummaryDiv.style.background = 'rgba(255, 238, 200, 0.95)';
+                                    readingSummaryDiv.style.color = '#412058';
+                                    readingSummaryDiv.style.border = '2px solid #edce8c';
+                                    readingSummaryDiv.style.borderRadius = '15px';
+                                    readingSummaryDiv.style.padding = 'clamp(20px, 4vw, 35px)';
+                                    readingSummaryDiv.style.fontSize = 'clamp(0.85rem, 1.8vw, 1rem)';
+                                    readingSummaryDiv.style.fontFamily = 'serif';
+                                    readingSummaryDiv.style.width = '90%';
+                                    readingSummaryDiv.style.maxWidth = '700px';
+                                    readingSummaryDiv.style.opacity = '0';
+                                    readingSummaryDiv.animate([
+                                        { opacity: 0, transform: 'translateY(20px)' },
+                                        { opacity: 1, transform: 'translateY(0)' }
+                                    ], {
+                                        duration: 800,
+                                        easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+                                        fill: 'forwards'
+                                    });
+
+                                    readingSummaryDiv.style.transition = 'opacity 0.8s ease-in';
+                                    readingSummaryDiv.style.lineHeight = '1.6';
+                                    readingSummaryDiv.style.boxShadow = '0 8px 32px rgba(0,0,0,0.3)';
+                                    readingSummaryDiv.style.margin = '0 auto';
+                                    readingSummaryDiv.style.marginBottom = 'clamp(50px, 8vh, 80px)';
+                                    readingSummaryDiv.style.marginTop = 'clamp(30px, 5vh, 50px)';
+
+                                    const heading = document.createElement('h2');
+                                    heading.textContent = 'Your Tarot Reading';
+                                    heading.style.marginTop = '0';
+                                    heading.style.marginBottom = 'clamp(15px, 3vh, 25px)';
+                                    heading.style.textAlign = 'center';
+                                    heading.style.fontFamily = 'Lavishly Yours, serif';
+                                    heading.style.fontSize = 'clamp(1.4rem, 3.5vw, 2rem)';
+                                    heading.style.color = '#4F335B';
+                                    heading.style.lineHeight = '1.2';
+
+                                    const readingText = document.createElement('p');
+                                    readingText.textContent = reading;
+                                    readingText.style.marginBottom = 'clamp(20px, 3vh, 30px)';
+                                    readingText.style.textAlign = 'justify';
+                                    readingText.style.fontSize = 'clamp(0.85rem, 1.8vw, 1rem)';
+                                    readingText.style.lineHeight = '1.6';
+
+                                    const retryBtn = document.createElement('button');
+                                    retryBtn.textContent = 'Try Again';
+                                    retryBtn.style.display = 'block';
+                                    retryBtn.style.margin = '0 auto';
+                                    retryBtn.style.padding = 'clamp(10px, 2vh, 14px) clamp(24px, 4vw, 36px)';
+                                    retryBtn.style.background = '#4F335B';
+                                    retryBtn.style.color = '#fff';
+                                    retryBtn.style.border = '2px solid #edce8c';
+                                    retryBtn.style.borderRadius = '8px';
+                                    retryBtn.style.fontSize = 'clamp(0.9rem, 1.8vw, 1.1rem)';
+                                    retryBtn.style.fontFamily = 'Cinzel Decorative, serif';
+                                    retryBtn.style.cursor = 'pointer';
+                                    retryBtn.style.transition = 'all 0.3s ease';
+                                    retryBtn.style.fontWeight = '600';
+                                    retryBtn.style.whiteSpace = 'nowrap';
+
+                                    retryBtn.addEventListener('mouseenter', () => {
+                                        retryBtn.style.background = '#664275';
+                                        retryBtn.style.transform = 'scale(1.05)';
+                                    });
+
+                                    retryBtn.addEventListener('mouseleave', () => {
+                                        retryBtn.style.background = '#4F335B';
+                                        retryBtn.style.transform = 'scale(1)';
+                                    });
+
+                                    retryBtn.addEventListener('click', () => {
+                                        window.location.reload();
+                                    });
+
+                                    readingSummaryDiv.appendChild(heading);
+                                    readingSummaryDiv.appendChild(readingText);
+                                    readingSummaryDiv.appendChild(retryBtn);
+                                    readingContainer.appendChild(readingSummaryDiv);
+
+                                    // Show reading summary and scroll to show it while keeping cards visible
+                                    setTimeout(() => {
+                                        readingSummaryDiv.style.opacity = '1';
+                                        // Scroll to show the reading summary at the bottom
+                                        readingSummaryDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                                    }, 50);
+                                }, 300);
                             });
 
-                            readingSummaryDiv.appendChild(heading);
-                            readingSummaryDiv.appendChild(readingText);
-                            readingSummaryDiv.appendChild(retryBtn);
-                            document.body.appendChild(readingSummaryDiv);
-
-                            setTimeout(() => readingSummaryDiv.style.opacity = '1', 50);
-                        }, 600);
-
-                        this.disabled = true;
-                        this.style.opacity = '0';
-                    });
-
-                    const instructionHeading = readingContainer.querySelector('h1');
-                    if (instructionHeading) instructionHeading.style.opacity = '0';
-                }, 1000);
-            }
-        }, 400);
-    });
+                            const instructionHeading = readingContainer.querySelector('h1');
+                            if (instructionHeading) {
+                                instructionHeading.style.transition = 'opacity 0.5s ease';
+                                instructionHeading.style.opacity = '0';
+                            }
+                        }, 1000);
+                    }
+                }, 400);
+            });
+        });
+    }
 });
