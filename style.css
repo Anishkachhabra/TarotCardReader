@@ -274,9 +274,6 @@ a {
     50% { border-color: transparent; }
 }
 
-/* Media Queries for Responsive Design */
-
-/* Small Mobile Devices (up to 480px) */
 @media screen and (max-width: 480px) {
     .container.main {
         width: 95%;
@@ -306,7 +303,6 @@ a {
     }
 }
 
-/* Medium Mobile Devices (481px - 767px) */
 @media screen and (min-width: 481px) and (max-width: 767px) {
     .container.main {
         width: 90%;
@@ -336,7 +332,6 @@ a {
     }
 }
 
-/* Tablets (768px - 1023px) */
 @media screen and (min-width: 768px) and (max-width: 1023px) {
     .container.main .hero .heading1 {
         font-size: 3.5rem;
@@ -359,7 +354,6 @@ a {
     }
 }
 
-/* Small Desktops (1024px - 1279px) */
 @media screen and (min-width: 1024px) and (max-width: 1279px) {
     .container.main .hero .heading1 {
         font-size: 4rem;
@@ -371,7 +365,6 @@ a {
     }
 }
 
-/* Landscape Orientation */
 @media screen and (orientation: landscape) and (max-height: 600px) {
     .container.main .hero .heading1 {
         font-size: 2.8rem;
@@ -389,7 +382,6 @@ a {
     }
 }
 
-/* High-Resolution Devices */
 @media screen and (-webkit-min-device-pixel-ratio: 2), 
        screen and (min-resolution: 192dpi) {
     .container.main button a,
@@ -398,7 +390,6 @@ a {
     }
 }
 
-/* Print Media */
 @media print {
     section {
         background: none !important;
@@ -439,15 +430,12 @@ a {
     }
 }
 
-/* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
-    /* Already in dark mode, but we can enhance it further if needed */
     .container.main {
         box-shadow: 0 0 40px rgba(140, 180, 255, 0.3);
     }
 }
 
-/* Reduced Motion Preference */
 @media (prefers-reduced-motion: reduce) {
     section .star,
     .container.main img.wheel1,
@@ -462,7 +450,11 @@ a {
 }
 
 /* 
-#D4CBD0, #908196, #806884, #664D6B, #4F335B
+#D4CBD0, 
+#908196, 
+#806884, 
+#664D6B, 
+#4F335B
 */
 
 /* 
